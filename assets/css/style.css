@@ -1,0 +1,72 @@
+body {
+    background-image: url(../images/background/background_field.png);
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%; 
+    font-family: 'VT323', monospace;
+}
+.bio{
+    text-align: left;
+    background-color: rgba(240, 248, 255, 0.733);
+    border-radius: 5%;
+    padding : 1em;
+}
+.instuctions{
+    background-color: rgba(240, 248, 255, 0.733);
+    border-radius: 5%;
+    padding : 1em;
+    margin-bottom: 6em;
+ 
+}
+.hide{
+    display: none;
+}
+#rival{
+    margin-top: 20em;
+  
+} 
+#StartDisplay{
+   
+    margin-top: 5em;
+   
+}
+#battle{
+    margin-top: 20em;
+   
+}
+.health{
+    background-color: greenyellow;
+    border-radius: 30%;
+}
+.title{
+    width: 15em;
+    min-height: 3em;
+    margin: auto;
+    margin-bottom: 1em;
+    padding: 1em;
+    background-color: rgba(255, 255, 255, 0.794);
+    border-radius: 2%;
+    text-align: center;
+}
+.subTitile {
+    width: 8em;
+    min-height: 3em;
+    margin: auto;
+    margin-bottom: 1em;
+    padding: 1em;
+    background-color: rgba(255, 255, 255, 0.794);
+    border-radius: 2%;
+    text-align: center;
+
+}
+
+
+.imgContainer {
+    width: 10em;
+    height: 10em;
+}
+.imgContainer img{
+    height: 100%;
+    width: 100%;
+}
