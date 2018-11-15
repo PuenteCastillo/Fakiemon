@@ -1,480 +1,430 @@
+$(document).ready(function () {
+    console.log("ready!");
 
-var charPicked = false;
-var rivalPIcked = false;
-var charChosen = "";
-var warNotChosen = [];
-var rivalChosen = "";
-var LevelNUm = 1;
-var enemiesLiving = 0;
+    var StartFresh = function () {
+        // variabbles ////////////////////////////////////////////////////////////////////////////////////////////
+        // Character List//////
+        var char1 = {
 
-////// CHARACTERS /////
+            Health: 100,
+            Stregth: 15,
+            type: "water",
+            isDead: false,
 
-var char1 = {
+            picture: "./assets/images/sprites/0253.png",
+            pLevel1: "./assets/images/sprites/0253.png",
+            pLevel2: "./assets/images/sprites/0254.png",
+            pLevel3: "./assets/images/sprites/0255.png",
 
-    name: "CharacterOne",
-    FullHealth: 100,
-    Health: 100,
+        };
+        var char2 = {
 
-    Stregth: 20,
-    picture: "./assets/images/sprites/0253.png",
-    type: "water",
+            Health: 100,
+            Stregth: 15,
+            type: "fire",
+            isDead: false,
 
-    pLevel1: "./assets/images/sprites/0253.png",
-    pLevel2: "./assets/images/sprites/0254.png",
-    pLevel3: "./assets/images/sprites/0255.png",
-    isDead: false,
+            picture: "./assets/images/sprites/0356.png",
+            pLevel1: "./assets/images/sprites/0356.png",
+            pLevel2: "./assets/images/sprites/0357.png",
+            pLevel3: "./assets/images/sprites/0358.png",
 
-}
+        };
+        var char3 = {
 
+            Health: 100,
+            Stregth: 15,
+            type: "grass",
+            isDead: false,
 
+            picture: "./assets/images/sprites/0250.png",
+            pLevel1: "./assets/images/sprites/0250.png",
+            pLevel2: "./assets/images/sprites/0251.png",
+            pLevel3: "./assets/images/sprites/0252.png",
 
+        };
+        var char4 = {
 
-var char2 = {
-    name: "CharacterTwo",
-    FullHealth: 100,
-    Health: 100,
-    Stregth: 20,
-    picture: "./assets/images/sprites/0356.png",
-    calHealth: 0,
-    type: "fire",
+            Health: 100,
+            Stregth: 15,
+            type: "wind",
+            isDead: false,
 
-    pLevel1: "./assets/images/sprites/0356.png",
-    pLevel2: "./assets/images/sprites/0357.png",
-    pLevel3: "./assets/images/sprites/0358.png",
-    isDead: false,
+            picture: "./assets/images/sprites/0247.png",
+            pLevel1: "./assets/images/sprites/0247.png",
+            pLevel2: "./assets/images/sprites/0248.png",
+            pLevel3: "./assets/images/sprites/0249.png",
 
-}
+        };
+        //   Character List End ///////
+        var charChosen = "";
+        var oppChosen = "";
+        var opponents = [];
+        var eleminations = 0;
+        var enemiesLeft = 3;
+        var powerUpLevel = 0;
 
-var char3 = {
-    name: "CharacterThree",
-    FullHealth: 100,
-    Health: 100,
-    Stregth: 20,
-    picture: "./assets/images/sprites/0250.png",
-    type: "grass",
-
-    pLevel1: "./assets/images/sprites/0250.png",
-    pLevel2: "./assets/images/sprites/0251.png",
-    pLevel3: "./assets/images/sprites/0252.png",
-    isDead: false,
-}
-
-var char4 = {
-    name: "CharacterFour",
-    FullHealth: 100,
-    Health: 100,
-    Stregth: 20,
-    picture: "./assets/images/sprites/0247.png",
-    type: "wind",
-
-    pLevel1: "./assets/images/sprites/0247.png",
-    pLevel2: "./assets/images/sprites/0248.png",
-    pLevel3: "./assets/images/sprites/0249.png",
-    isDead: false,
-}
+        // variabbles End ///////////////////////////////////////////////////////////////////////////////////
 
 
-var updateStats = function () {
-    var charCalHealth = (charChosen.Health * 100) / charChosen.FullHealth;
-    var rivalCalHealth = (rivalChosen.Health * 100) / rivalChosen.FullHealth;
-    console.log("player Health :" + charChosen.Health);
-    $('#cP_HEalth').css("width", charCalHealth + "%");
-    $("#cR_Health").css("width", rivalCalHealth + "%");
-    $('#cP_HEalth_Battle').css("width", charCalHealth + "%");
+        // functions /////////////////////////////////////////////////////////////////////////////////////////
+
+        var chooseAnother = function () {
+
+            if (enemiesLeft > 1) {
+                enemiesLeft--;
+                console.log("enemies Lefts: " + enemiesLeft);
+                $('#opponentPage').removeClass("hide");
+                $('#battlePage').addClass("hide");
+
+                // power up after every elimination
+                if (eleminations < 2) {
+                    eleminations++;
+                    console.log("PowerUP");
+                    console.log(eleminations);
+                    charChosen.Health += 20;
+                    charChosen.Stregth += 20;
+                    $('#charHealth').css('width', charChosen.Health + '%');
+                    $('#charHealthB').css('width', charChosen.Health + '%');
+                    $('#charHealth').text(' Health:' + charChosen.Health);
+                    $('#charHealthB').text(' Health:' + charChosen.Health);
+                }
 
 
-}
-var updatePic = function () {
-    $("#chosenPlayer").attr("src", charChosen.picture);
-    $("#chosenPlayerB").attr("src", charChosen.picture);
+                for (i = 0; i < opponents.length; i++) {
+                    if (!opponents[i].isDead) {
+                        $("#opponent" + i).attr("src", opponents[i].picture);
+                    } else if (opponents[i].isDead) {
+                        $('#opponent' + i).addClass("hide");
+                    }
+
+                }
+            } else {
+                // You win The Game 
+                console.log("You Win!");
+                gameWon();
+            }
+
+        }
+
+        var gameLost = function () {
+            $("#fightContainer").addClass("hide");
+            $('#resultContainer').removeClass("hide");
+            $('#result').text("! You Loose !");
+
+        }
+
+        var gameWon = function () {
+            $("#fightContainer").addClass("hide");
+            $('#resultContainer').removeClass("hide");
+            $('#result').text("! You Win !");
+
+        }
+
+
+        var updateStats = function () {
+
+            if (charChosen.Health < 0) {
+                charChosen.Health = 0;
+                gameLost();
+                // Game Lost 
+            }
+            if (oppChosen.Health < 0) {
+                oppChosen.Health = 0;
+                oppChosen.isDead = true;
+                chooseAnother();
+
+            }
+            // if (charChosen.Health > 0 && oppChosen.Health > 0){
+
+            $('#charHealth').css('width', charChosen.Health + '%');
+            $('#charHealthB').css('width', charChosen.Health + '%');
+            $('#oppHealthB').css('width', oppChosen.Health + '%');
+            $('#charHealth').text(' Health:' + charChosen.Health);
+            $('#charHealthB').text(' Health:' + charChosen.Health);
+            $('#oppHealthB').text(' Health:' + oppChosen.Health);
+            $('#charImg').attr('src', charChosen.picture);
+            $('#charImgB').attr('src', charChosen.picture);
+            $('#oppImgB').attr('src', oppChosen.picture);
+
+            // }
+        }
+
+        var dealDamagechar = function () {
+
+            if ((charChosen.type == "water") && (oppChosen.type == "fire")) {
+
+                oppChosen.Health -= charChosen.Stregth + (charChosen.Stregth * .50);
 
 
 
-    console.log(LevelNUm);
-}
-var leveUpFunc = function () {
 
-    charChosen.Health += 15;
-    charChosen.Stregth += 15;
-
-    console.log("levelUp");
-    if (LevelNUm == 1) {
-        LevelNUm++;
-        charChosen.picture = charChosen.pLevel2;
+            } else if ((charChosen.type == "water") && (oppChosen.type == "wind")) {
+                oppChosen.Health -= charChosen.Stregth - (charChosen.Stregth * .50);
 
 
-        updatePic();
-    } else if (LevelNUm == 2) {
-        LevelNUm++;
-        charChosen.picture = charChosen.pLevel3;
+            } else if ((charChosen.type == "fire") && (oppChosen.type == "grass")) {
 
-        updatePic();
-    }
-    console.log("Health: " + charChosen.Health + " Stregth : " + charChosen.Stregth);
+                oppChosen.Health -= charChosen.Stregth + (charChosen.Stregth * .50);
 
 
-}
 
-var checkIfDead = function () {
+            } else if ((charChosen.type == "fire") && (oppChosen.type == "water")) {
+                oppChosen.Health -= charChosen.Stregth - (charChosen.Stregth * .50);
 
-    console.log(enemiesLiving);
-    if (charChosen.Health <= 0) {
-        charChosen.Health = 0;
-        rivalPage();
-        $("#selectionPage").text("! You Lose !");
-        $('#cP_HEalth').addClass("hide");
-        $('#NewGAME').removeClass("hide");
-        $("#rival0").attr("class", "hide");
-        $("#rival1").attr("class", "hide");
-        $("#rival2").attr("class", "hide");
-        // Game Over
-        // You Lose
 
-    } else if (rivalChosen.Health <= 0) {
+            } else if ((charChosen.type == "grass") && (oppChosen.type == "wind")) {
 
-        if (enemiesLiving <= 1) {
-            //  Choose New Character 
-            enemiesLiving++;
-            rivalChosen.isDead = true;
-            $("#battle").addClass("hide");
-            rivalPage();
+                oppChosen.Health -= charChosen.Stregth + (charChosen.Stregth * .50);
+
+
+
+            } else if ((charChosen.type == "grass") && (oppChosen.type == "fire")) {
+                oppChosen.Health -= charChosen.Stregth - (charChosen.Stregth * .50);
+
+
+            }
+            else if ((charChosen.type == "wind") && (oppChosen.type == "water")) {
+
+                oppChosen.Health -= charChosen.Stregth + (charChosen.Stregth * .50);
+
+
+
+            } else if ((charChosen.type == "wind") && (oppChosen.type == "grass")) {
+                oppChosen.Health -= charChosen.Stregth - (charChosen.Stregth * .50);
+
+
+            } else {
+                oppChosen.Health -= charChosen.Stregth;
+
+
+            }
+
             updateStats();
-        } else {
-            rivalPage();
-            $("#selectionPage").text("! You Win !");
+        }
+        var dealDamageOpp = function () {
+            if ((charChosen.type == "water") && (oppChosen.type == "fire")) {
+
+
+                charChosen.Health -= oppChosen.Stregth - (oppChosen.Stregth * .50);
+
+
+
+            } else if ((charChosen.type == "water") && (oppChosen.type == "wind")) {
+
+                charChosen.Health -= oppChosen.Stregth + (oppChosen.Stregth * .50);
+
+            } else if ((charChosen.type == "fire") && (oppChosen.type == "grass")) {
+
+
+                charChosen.Health -= oppChosen.Stregth - (oppChosen.Stregth * .50);
+
+
+            } else if ((charChosen.type == "fire") && (oppChosen.type == "water")) {
+
+                charChosen.Health -= oppChosen.Stregth + (oppChosen.Stregth * .50);
+
+            } else if ((charChosen.type == "grass") && (oppChosen.type == "wind")) {
+
+
+                charChosen.Health -= oppChosen.Stregth - (oppChosen.Stregth * .50);
+
+
+            } else if ((charChosen.type == "grass") && (oppChosen.type == "fire")) {
+
+                charChosen.Health -= oppChosen.Stregth + (oppChosen.Stregth * .50);
+
+            }
+            else if ((charChosen.type == "wind") && (oppChosen.type == "water")) {
+
+
+                charChosen.Health -= oppChosen.Stregth - (oppChosen.Stregth * .50);
+
+
+            } else if ((charChosen.type == "wind") && (oppChosen.type == "grass")) {
+
+                charChosen.Health -= oppChosen.Stregth + (oppChosen.Stregth * .50);
+
+            } else {
+
+                charChosen.Health -= oppChosen.Stregth;
+
+            }
             updateStats();
-            $("#rival0").attr("class", "hide");
-            $("#rival1").attr("class", "hide");
-            $("#rival2").attr("class", "hide");
-            $('#NewGAME').removeClass("hide");
-            // All Characters Died
-            // You Win 
         }
 
-    }
+        var goToOppenent = function () {
 
+            console.log('char Chosen: ' + charChosen)
+            $('#start').addClass("hide");
+            $('#opponentPage').removeClass("hide");
 
-}
+            for (i = 0; i < opponents.length; i++) {
 
+                $("#opponent" + i).attr("src", opponents[i].picture);
 
-////// when choosing a rival 
-
-var rivalPage = function () {
-
-    var charCalHealth = (charChosen.Health * 100) / charChosen.FullHealth;
-    $("#StartDisplay").addClass("hide");
-    $("#rival").removeClass("hide");
-    // $("#chosenPlayer").text(charChosen);
-    $("#chosenPlayer").attr("src", charChosen.picture);
-    $('#cP_HEalth').css("width", charCalHealth + "%");
-    for (i = 0; i < warNotChosen.length; i++) {
-
-        $("#rival" + i).attr("src", warNotChosen[i].picture);
-        if (warNotChosen[i].isDead == true) {
-            $("#rival" + i).attr("class", "hide");
-            charChosen.Health += 16;
-            charChosen.Stregth += 16;
+            }
+            updateStats();
         }
 
-    }
+        var goToBattle = function () {
 
+            console.log('opponent: ' + charChosen)
+            $('#opponentPage').addClass("hide");
+            $('#battlePage').removeClass("hide");
+            updateStats();
 
-
-}
-
-//// start The Battle
-var battlePage = function () {
-    var charCalHealth = (charChosen.Health * 100) / charChosen.FullHealth;
-    var rivalCalHealth = (rivalChosen.Health * 100) / rivalChosen.FullHealth;
-
-    $("#rival").addClass("hide");
-    $("#battle").removeClass("hide");
-    $("#cR_Health").css("width", rivalCalHealth + "%");
-
-    $('#cP_HEalth_Battle').css("width", charCalHealth + "%");
-    $("#chosenPlayerB").attr("src", charChosen.picture);
-    $("#rivalChosenB").attr("src", rivalChosen.picture);
-
-
-}
-
-
-
-
-$("#C1").click(function () {
-    if (!charPicked) {
-        charChosen = char1;
-        warNotChosen = [char2, char3, char4];
-        rivalPage();
-        charPicked = true;
-    }
-});
-
-$("#C2").click(function () {
-    if (!charPicked) {
-        charChosen = char2;
-        warNotChosen = [char1, char3, char4];
-        rivalPage();
-        charPicked = true;
-    }
-});
-
-$("#C3").click(function () {
-    if (!charPicked) {
-        charChosen = char3;
-        warNotChosen = [char1, char2, char4];
-        rivalPage();
-        charPicked = true;
-    }
-});
-
-$("#C4").click(function () {
-    if (!charPicked) {
-        charChosen = char4;
-        warNotChosen = [char1, char2, char3,];
-        rivalPage();
-        charPicked = true;
-    }
-});
-
-
-
-
-$("#rival0").click(function () {
-
-
-    rivalChosen = warNotChosen[0];
-    battlePage();
-    rivalPIcked = true;
-
-
-});
-
-$("#rival1").click(function () {
-
-
-    rivalChosen = warNotChosen[1];
-    battlePage();
-    rivalPIcked = true;
-
-
-});
-
-$("#rival2").click(function () {
-
-
-    rivalChosen = warNotChosen[2];
-    battlePage();
-    rivalPIcked = true;
-
-
-});
-
-$("#fight").click(function () {
-
-
-    ///// type battle stengths /////
-    console.log("char : " + charChosen.type + " rival : " + rivalChosen.type);
-    if ((charChosen.type == "water") && (rivalChosen.type == "fire")) {
-
-        rivalChosen.Health -= charChosen.Stregth + (charChosen.Stregth * .50);
-        charChosen.Health -= rivalChosen.Stregth - (rivalChosen.Stregth * .50);
-
-
-
-    } else if ((charChosen.type == "water") && (rivalChosen.type == "wind")) {
-        rivalChosen.Health -= charChosen.Stregth - (charChosen.Stregth * .50);
-        charChosen.Health -= rivalChosen.Stregth + (rivalChosen.Stregth * .50);
-
-    } else if ((charChosen.type == "fire") && (rivalChosen.type == "grass")) {
-
-        rivalChosen.Health -= charChosen.Stregth + (charChosen.Stregth * .50);
-        charChosen.Health -= rivalChosen.Stregth - (rivalChosen.Stregth * .50);
-
-
-    } else if ((charChosen.type == "fire") && (rivalChosen.type == "water")) {
-        rivalChosen.Health -= charChosen.Stregth - (charChosen.Stregth * .50);
-        charChosen.Health -= rivalChosen.Stregth + (rivalChosen.Stregth * .50);
-
-    } else if ((charChosen.type == "grass") && (rivalChosen.type == "wind")) {
-
-        rivalChosen.Health -= charChosen.Stregth + (charChosen.Stregth * .50);
-        charChosen.Health -= rivalChosen.Stregth - (rivalChosen.Stregth * .50);
-
-
-    } else if ((charChosen.type == "grass") && (rivalChosen.type == "fire")) {
-        rivalChosen.Health -= charChosen.Stregth - (charChosen.Stregth * .50);
-        charChosen.Health -= rivalChosen.Stregth + (rivalChosen.Stregth * .50);
-
-    }
-    else if ((charChosen.type == "wind") && (rivalChosen.type == "water")) {
-
-        rivalChosen.Health -= charChosen.Stregth + (charChosen.Stregth * .50);
-        charChosen.Health -= rivalChosen.Stregth - (rivalChosen.Stregth * .50);
-
-
-    } else if ((charChosen.type == "wind") && (rivalChosen.type == "grass")) {
-        rivalChosen.Health -= charChosen.Stregth - (charChosen.Stregth * .50);
-        charChosen.Health -= rivalChosen.Stregth + (rivalChosen.Stregth * .50);
-
-    } else {
-        rivalChosen.Health -= charChosen.Stregth;
-        charChosen.Health -= rivalChosen.Stregth;
-
-    }
-
-    ///// type battle stengths /////
-
-
-    console.log("Health: " + charChosen.Health + " Stregth : " + charChosen.Stregth);
-    updateStats();
-    checkIfDead();
-
-});
-
-$('#NewGAME').click(function () {
-    charPicked = false;
-    rivalPIcked = false;
-    charChosen = "";
-    warNotChosen = [];
-    LevelNUm = 1;
-    enemiesLiving = 0;
-    char3 = {
-        name: "CharacterThree",
-        FullHealth: 100,
-        Health: 100,
-        Stregth: 20,
-        picture: "./assets/images/sprites/0250.png",
-        type: "grass",
-    
-        pLevel1: "./assets/images/sprites/0250.png",
-        pLevel2: "./assets/images/sprites/0251.png",
-        pLevel3: "./assets/images/sprites/0252.png",
-        isDead: false,
-    }
-    char2 = {
-        name: "CharacterTwo",
-        FullHealth: 100,
-        Health: 100,
-        Stregth: 20,
-        picture: "./assets/images/sprites/0356.png",
-        calHealth: 0,
-        type: "fire",
-    
-        pLevel1: "./assets/images/sprites/0356.png",
-        pLevel2: "./assets/images/sprites/0357.png",
-        pLevel3: "./assets/images/sprites/0358.png",
-        isDead: false,
-    
-    }
-    char4 = {
-        name: "CharacterFour",
-        FullHealth: 100,
-        Health: 100,
-        Stregth: 20,
-        picture: "./assets/images/sprites/0247.png",
-        type: "wind",
-    
-        pLevel1: "./assets/images/sprites/0247.png",
-        pLevel2: "./assets/images/sprites/0248.png",
-        pLevel3: "./assets/images/sprites/0249.png",
-        isDead: false,
-    }
-    char1 = {
-
-        name: "CharacterOne",
-        FullHealth: 100,
-        Health: 100,
-    
-        Stregth: 20,
-        picture: "./assets/images/sprites/0253.png",
-        type: "water",
-    
-        pLevel1: "./assets/images/sprites/0253.png",
-        pLevel2: "./assets/images/sprites/0254.png",
-        pLevel3: "./assets/images/sprites/0255.png",
-        isDead: false,
-    
-    }
-
-    $("#rival").addClass("hide");
-    $("#battle").addClass("hide");
-    $("#StartDisplay").removeClass("hide");
-    $("#rival0").removeClass("hide");
-    $("#rival1").removeClass("hide");
-    $("#rival2").removeClass("hide");
-    $('#NewGAME').addClass("hide");
-    $("#selectionPage").text("! Choose Your Rival  !");
-    
-
-})
-
-
-
-$("#powerUp").click(function () {
-
-    if (LevelNUm >= 3) {
-        $("#powerUp").text(" Max Level Reached !");
-
-
-    }
-    else if (LevelNUm <= 2) {
-
-
-
-        if ((charChosen.type == "water") && (rivalChosen.type == "fire")) {
-
-
-            charChosen.Health -= rivalChosen.Stregth - (rivalChosen.Stregth * .50);
-            console.log(" water v fire")
-        } else if ((charChosen.type == "water") && (rivalChosen.type == "wind")) {
-
-            charChosen.Health -= rivalChosen.Stregth + (rivalChosen.Stregth * .50);
-            console.log(" water v wind ")
-        } else if ((charChosen.type == "fire") && (rivalChosen.type == "grass")) {
-
-            charChosen.Health -= rivalChosen.Stregth - (rivalChosen.Stregth * .50);
-            console.log(" fire v grass ")
-
-        } else if ((charChosen.type == "fire") && (rivalChosen.type == "water")) {
-
-            charChosen.Health -= rivalChosen.Stregth + (rivalChosen.Stregth * .50);
-
-        } else if ((charChosen.type == "grass") && (rivalChosen.type == "wind")) {
-
-
-            charChosen.Health -= rivalChosen.Stregth - (rivalChosen.Stregth * .50);
-            console.log(" grass v wind ")
-
-        } else if ((charChosen.type == "grass") && (rivalChosen.type == "fire")) {
-
-            charChosen.Health -= rivalChosen.Stregth + (rivalChosen.Stregth * .50);
-            console.log(" grass v fire ")
         }
-        else if ((charChosen.type == "wind") && (rivalChosen.type == "water")) {
 
-            charChosen.Health -= rivalChosen.Stregth - (rivalChosen.Stregth * .50);
-            console.log(" wind v water ")
+        // Functions End//////////////////////////////////////////////////////////////////////////////////////
 
-        } else if ((charChosen.type == "wind") && (rivalChosen.type == "grass")) {
+        // Clicks ////////////////////////////////////////////////////////////////////////////////////////
 
-            charChosen.Health -= rivalChosen.Stregth + (rivalChosen.Stregth * .50);
-            console.log(" wind v grass ")
-        } else {
-            rivalChosen.Health -= charChosen.Stregth;
-            charChosen.Health -= rivalChosen.Stregth;
-            console.log(" not compatible  ")
-        }
-        leveUpFunc();
+        $('#c1').click(function () {
+            charChosen = char1;
+            opponents = [char2, char3, char4];
+            goToOppenent();
+        });
 
+        $('#c2').click(function () {
+            charChosen = char2;
+            opponents = [char1, char3, char4];
+            goToOppenent();
+        });
 
-    }
+        $('#c3').click(function () {
+            charChosen = char3;
+            opponents = [char1, char2, char4];
+            goToOppenent();
+        });
 
+        $('#c4').click(function () {
+            charChosen = char4;
+            opponents = [char1, char2, char3,];
+            goToOppenent();
+        });
+        /////////////////////////////////////
+        $('#opponent0').click(function () {
+            oppChosen = opponents[0];
+            goToBattle();
+        });
 
-    updateStats();
-    checkIfDead();
+        $('#opponent1').click(function () {
+            oppChosen = opponents[1];
+            goToBattle();
+        });
 
+        $('#opponent2').click(function () {
+            oppChosen = opponents[2];
+            goToBattle();
+        });
+        ////////////////////////////////////
+        $('#fight').click(function () {
+            dealDamagechar();
+            dealDamageOpp();
+        });
 
+        $('#powerUP').click(function () {
+
+            console.log("Clicked");
+            if (powerUpLevel < 2) {
+                if (powerUpLevel == 0){
+                    charChosen.picture = charChosen.pLevel2;
+                }
+                if (powerUpLevel == 1){
+                    charChosen.picture = charChosen.pLevel3;
+                }
+                powerUpLevel++;
+                charChosen.Health += 15;
+                charChosen.Stregth += 15;
+                
+                dealDamageOpp();
+            } else {
+                $('#powerUpText').text("Max Level Reached");
+            }
+
+        });
+
+        $('#newGame').click(function () {
+            $("#fightContainer").removeClass("hide");
+            $('#resultContainer').addClass("hide");
+            $('#opponentPage').addClass("hide");
+            $('#battlePage').addClass("hide");
+            $('#start').removeClass("hide");
+            $('#opponent0').removeClass("hide");
+            $('#opponent1').removeClass("hide");
+            $('#opponent2').removeClass("hide");
+            $('#powerUpText').text(" Power Up");
+
+            charChosen = "";
+            oppChosen = "";
+            opponents = [];
+            eleminations = 0;
+            enemiesLeft = 3;
+            powerUpLevel = 0;
+
+            charChosen.picture = charChosen.pLevel1;
+
+            char1 = {
+
+                Health: 100,
+                Stregth: 15,
+                type: "water",
+                isDead: false,
+
+                picture: "./assets/images/sprites/0253.png",
+                pLevel1: "./assets/images/sprites/0253.png",
+                pLevel2: "./assets/images/sprites/0254.png",
+                pLevel3: "./assets/images/sprites/0255.png",
+
+            };
+            char2 = {
+
+                Health: 100,
+                Stregth: 15,
+                type: "fire",
+                isDead: false,
+
+                picture: "./assets/images/sprites/0356.png",
+                pLevel1: "./assets/images/sprites/0356.png",
+                pLevel2: "./assets/images/sprites/0357.png",
+                pLevel3: "./assets/images/sprites/0358.png",
+
+            };
+            char3 = {
+
+                Health: 100,
+                Stregth: 15,
+                type: "grass",
+                isDead: false,
+
+                picture: "./assets/images/sprites/0250.png",
+                pLevel1: "./assets/images/sprites/0250.png",
+                pLevel2: "./assets/images/sprites/0251.png",
+                pLevel3: "./assets/images/sprites/0252.png",
+
+            };
+            char4 = {
+
+                Health: 100,
+                Stregth: 15,
+                type: "wind",
+                isDead: false,
+
+                picture: "./assets/images/sprites/0247.png",
+                pLevel1: "./assets/images/sprites/0247.png",
+                pLevel2: "./assets/images/sprites/0248.png",
+                pLevel3: "./assets/images/sprites/0249.png",
+
+            };
+            StartFresh();
+        });
+
+        //Clicks End//////////////////////////////////////////////////////////////////////////////////////////
+    };
+    StartFresh();
 
 });
+
+
 

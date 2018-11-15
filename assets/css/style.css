@@ -1,10 +1,67 @@
 body {
-    background-image: url(../images/background/background_field.png);
+    background-image: url(../images/background/background_jungle.png);
     background-position: fixed;
     background-repeat: no-repeat;
     background-size: cover;
     height: 100%; 
     font-family: 'VT323', monospace;
+}
+.instuctions{
+    background-color: rgba(240, 248, 255, 0.733);
+    border-radius: 5%;
+    padding : 1em;
+    margin-bottom: 6em;
+    text-align: center;
+    width: 35em;
+ 
+}
+.imgContainer{
+    height: 10em;
+    width: 10em;
+}
+.health{
+    height: 1.5em;
+    text-emphasis-position: fixed;
+}
+
+.imgContainer img{
+    width: 100%;
+    height: 100%;
+}
+
+.healthContainer{
+    background-color: red;
+    border-radius: 5%;
+}
+.health{
+    background-color: greenyellow;
+    width: 80%;
+    border-radius: 5%;
+}
+
+
+
+.topLayer{
+    min-height: 25em;
+    
+}
+.topLayerTwo{
+    min-height: 30em;
+}
+.controls{
+    min-height: 10em;
+   
+}
+.title{
+    
+    min-height: 3em;
+    margin: auto;
+    margin-bottom: 1em;
+    padding: 1em;
+    background-color: rgba(255, 255, 255, 0.794);
+    border-radius: 2%;
+    text-align: center;
+
 }
 .bio{
     text-align: left;
@@ -12,61 +69,6 @@ body {
     border-radius: 5%;
     padding : 1em;
 }
-.instuctions{
-    background-color: rgba(240, 248, 255, 0.733);
-    border-radius: 5%;
-    padding : 1em;
-    margin-bottom: 6em;
- 
-}
 .hide{
     display: none;
-}
-#rival{
-    margin-top: 20em;
-  
-} 
-#StartDisplay{
-   
-    margin-top: 5em;
-   
-}
-#battle{
-    margin-top: 20em;
-   
-}
-.health{
-    background-color: greenyellow;
-    border-radius: 30%;
-}
-.title{
-    width: 15em;
-    min-height: 3em;
-    margin: auto;
-    margin-bottom: 1em;
-    padding: 1em;
-    background-color: rgba(255, 255, 255, 0.794);
-    border-radius: 2%;
-    text-align: center;
-}
-.subTitile {
-    width: 8em;
-    min-height: 3em;
-    margin: auto;
-    margin-bottom: 1em;
-    padding: 1em;
-    background-color: rgba(255, 255, 255, 0.794);
-    border-radius: 2%;
-    text-align: center;
-
-}
-
-
-.imgContainer {
-    width: 10em;
-    height: 10em;
-}
-.imgContainer img{
-    height: 100%;
-    width: 100%;
 }

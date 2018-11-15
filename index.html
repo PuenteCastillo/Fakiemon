@@ -7,37 +7,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Bangers|Monoton|VT323" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Document</title>
 </head>
 
 <body>
 
-    <!-- Starting Display  -->
-    <div class="container text-center " id="StartDisplay">
-
-        <div class="row justify-content-around ">
-            <div class="col-md-6 instuctions">
-                <h1> FakieMon </h1>
+    <!-- Start Screen ///////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <div class="container" id="start">
+        <div class="row topLayer justify-content-around align-items-center">
+            <div class="instuctions">
+                <h1> Fakiemon </h1>
                 <h3>Instructiosn : </h3>
-                <p> - Choose your Fakiemon to follow you into battle -</p>
-                <p> - Some Fakiemon types are stonger than others -</p>
-                <p> - Each time your fakiemon win a battle it Gain +16 health and +16 Attack Power -</p>
-
-
-
+                <p> - Choose your Fakiemon to follow you into battle </p>
+                <p> - Some Fakiemon types are stonger than others </p>
+                <p> - Each time your fakiemon win a battle it Gain +16 health and +16 Attack Power </p>
             </div>
         </div>
+        <div class="row controls justify-content-around align-items-center ">
+            <div class="col-md-7">
+                <div class="title">
+                    <h1>! Choose Your Fakiemon !</h1>
+                </div>
 
+            </div>
 
-        <div class="row ">
-            <!-- Title -->
-            <h1 class="title">! Choose Your Fakiemon !</h1>
         </div>
-        <div class="row">
-            <div class="col-md-3" id="C1">
-                <div class="imgContainer">
+        <div class="row selection justify-content-around">
+            <div class="col-md-3">
+                <div class="imgContainer" id = "c1">
                     <img src="./assets/images/sprites/0253.png" alt="">
                     <div class="bio">
                         <P><b> Name:</b> Tortuga </P>
@@ -45,12 +43,10 @@
                         <P><b> Stong Aganst :</b> Fire </P>
 
                     </div>
-
                 </div>
-
             </div>
-            <div class="col-md-3" id="C2">
-                <div class="imgContainer">
+            <div class="col-md-3">
+                <div class="imgContainer" id = "c2">
                     <img src="./assets/images/sprites/0356.png" alt="">
                     <div class="bio">
                         <P><b> Name:</b> Fire Cat </P>
@@ -60,9 +56,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3" id="C3">
-
-                <div class="imgContainer">
+            <div class="col-md-3">
+                <div class="imgContainer" id = "c3">
                     <img src="./assets/images/sprites/0250.png" alt="">
                     <div class="bio">
                         <P><b> Name:</b> Bush Camper </P>
@@ -72,8 +67,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3" id="C4">
-                <div class="imgContainer">
+            <div class="col-md-3">
+                <div class="imgContainer" id = "c4">
                     <img src="./assets/images/sprites/0247.png" alt="">
                     <div class="bio">
                         <P><b> Name:</b> Scales </P>
@@ -85,111 +80,139 @@
             </div>
 
         </div>
-
     </div>
 
-    <!-- Choose Rival -->
+    <!-- Start Screen End //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-    <div class="container hide" id="rival">
-        <!-- Choose fighter -->
-        <!-- 
-        Player Choosen -->
-        <div class="container mb-5">
-            <div class="row justify-content-around">
-                <div class="col-md-4">
 
-                    <div class="imgContainer">
 
-                        <img id="chosenPlayer" src="./assets/images/sprites/0247.png" alt="">
-                        <div class="health" id="cP_HEalth">
-                            <p>Health</p>
+    <!-- opponent selection  /////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <div class="container hide" id="opponentPage">
+        <div class="row topLayerTwo justify-content-around align-items-end ">
+            <div class="col-md-3">
+                <div class="imgContainer">
+
+                    <img id = "charImg" src="./assets/images/sprites/0253.png" alt="">
+                    <div class="healthContainer">
+                        <div class="health" id = "charHealth">
+                            Health
                         </div>
                     </div>
-
-
                 </div>
             </div>
+            
+
+
         </div>
+        <div class="row controls justify-content-around align-items-center mt-5">
+            <div class="col-md-7">
+                <div class="title">
+                    <h1>! Choose Your Opponent !</h1>
+                </div>
 
-        <div class="row">
-            <h1 class="title" id="selectionPage">! Choose Your Rival !</h1>
-            <h1 class="title hide" id="NewGAME">! New Game !</h1>
+            </div>
+
         </div>
-        <div class="row">
-            <div class="col-md-4">
+        <div class="row selection justify-content-around">
+           
+            
+            <div class="col-md-3">
                 <div class="imgContainer">
-                    <img id="rival0" src="./assets/images/sprites/0247.png" alt="">
-                </div>
+                    <img id = "opponent0" src="./assets/images/sprites/0356.png" alt="">
 
-            </div>
-            <div class="col-md-4">
-                <div class="imgContainer">
-                    <img id="rival1" src="./assets/images/sprites/0247.png" alt="">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="imgContainer">
-                    <img id="rival2" src="./assets/images/sprites/0247.png" alt="">
+                    <img id = "opponent1" src="./assets/images/sprites/0250.png" alt="">
+
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="imgContainer">
+                    <img id = "opponent2" src="./assets/images/sprites/0247.png" alt="">
+
+                </div>
+            </div>
+
         </div>
-
-
-
     </div>
+    <!-- Opponent Selection End ////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 
-    <!-- Actual Battle  -->
-
-    <div class="container hide" id="battle">
-        <div class="row justify-content-around">
-            <div class="col-md-4">
-
+    <div class="container hide" id="battlePage">
+        <div class="row topLayerTwo justify-content-around align-items-end ">
+            <div class="col-md-3">
                 <div class="imgContainer">
-                    <img id="chosenPlayerB" src="./assets/images/sprites/0247.png" alt="">
-                    <div class="health" id="cP_HEalth_Battle">
-                        <p>Health</p>
+
+                    <img id = "charImgB" src="./assets/images/sprites/0253.png" alt="">
+                    <div class="healthContainer">
+                      
+                        <div class="health" id = "charHealthB">
+                       Health
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                    <div class="imgContainer">
+    
+                        <img id = "oppImgB" src="./assets/images/sprites/0253.png" alt="">
+                        <div class="healthContainer">
+                            <div class="health" id = "oppHealthB">
+                                Health
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-            <div class="col-md-4 ">
 
-                <div class="imgContainer margin: 0 auto;">
-                    <img id="rivalChosenB" src="./assets/images/sprites/0247.png" alt="">
-                    <div class="health" id="cR_Health">
-                        <p>Health</p>
-                    </div>
+        </div>
+        <div class="row controls justify-content-around align-items-center mt-5 "  id = "fightContainer">
+            <div class="col-md-4">
+                <div class="title" id = "fight">
+                    <h1>! Fight !</h1>
                 </div>
 
             </div>
-
+            <div class="col-md-4" >
+                    <div class="title" id = "powerUP">
+                        <h1 id = "powerUpText">! Power Up !</h1>
+                    </div>
+    
+                </div>
 
         </div>
-
-        <div class="row justify-content-around mt-5">
-            <div class="col-md-6">
-                <h1 class="subTitile " Id="fight"> Fight!</h1>
-                <h1 class="subTitile " Id="powerUp"> Power UP!</h1>
+        <div class="row controls justify-content-around align-items-center mt-5 hide" id = "resultContainer">
+                <div class="col-md-4">
+                    <div class="title" >
+                        <h1  id = "result">! You Lost  !</h1>
+                    </div>
+    
+                </div>
+                <div class="col-md-4" id = >
+                        <div class="title" id = "newGame">
+                            <h1>! New Game  !</h1>
+                        </div>
+        
+                    </div>
+    
             </div>
-
-
-
-        </div>
-
+       
     </div>
 
 
-
-    <!-- javaScript links  -->
+    <!-- Bootstrap  -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <!-- Bootstrap  -->
+    <!-- My JS -->
     <script src="./assets/js/game.js"></script>
-
+    <!-- My JS -->
 </body>
 
 </html>
